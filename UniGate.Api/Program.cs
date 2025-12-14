@@ -9,8 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. KẾT NỐI SqlServer
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
+<<<<<<< HEAD
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddScoped<MajorService>();
+=======
+    options.UseSqlServer(connectionString));
+>>>>>>> api-ngành-theo-khối(client+admin)
 
 // 1. Add CORS policy
 builder.Services.AddCors(options =>

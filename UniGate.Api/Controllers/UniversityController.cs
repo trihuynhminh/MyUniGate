@@ -1,57 +1,149 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniGate.Core.Entities;
+
 using UniGate.Infrastructure;
 
-namespace UniGate.Api.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UniversityController : ControllerBase
+namespace UniGate.Api.Controllers
 {
-    private readonly AppDbContext _context;
-
-    public UniversityController(AppDbContext context)
+    [ApiController]
+    [Route("api/universities")]
+    public class UniversityController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly AppDbContext _db;
+        public UniversityController(AppDbContext db) => _db = db;
 
-    // 1. Lấy danh sách trường
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        return Ok(await _context.Universities.ToListAsync());
-    }
-
-    // 2. Thêm mới một trường
-    [HttpPost]
-    public async Task<IActionResult> Create(University uni)
-    {
-        _context.Universities.Add(uni);
-        await _context.SaveChangesAsync();
-        return Ok(uni);
-    }
-
-    //xoá một trường
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        // Bước 1: Phải tìm xem cái trường đó có tồn tại không đã
-        var uni = await _context.Universities.FindAsync(id);
-
-        // Bước 2: Nếu tìm không ra (null) thì báo lỗi 404 Not Found
-        if (uni == null)
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] string? keyword)
         {
-            return NotFound("Tìm đỏ mắt không thấy trường này đâu!");
+            var query = _db.Universities.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.Trim().ToLower();
+                query = query.Where(u =>
+                    (u.UniversityName ?? "").ToLower().Contains(keyword) ||
+                    (u.UniversityCode ?? "").ToLower().Contains(keyword) ||
+                    (u.Province ?? "").ToLower().Contains(keyword));
+            }
+
+            var result = await query
+                .OrderBy(u => u.UniversityName)
+                .Select(u => new UniversityDto
+                {
+                    UniversityID = u.UniversityID,
+                    UniversityCode = u.UniversityCode,
+                    UniversityName = u.UniversityName,
+                    Province = u.Province,
+                    Website = u.Website,
+                    Description = u.Description,
+                    LogoUrl = u.LogoUrl
+                })
+                .ToListAsync();
+
+            return Ok(result);
         }
 
-        // Bước 3: Nếu thấy thì lệnh chém
-        _context.Universities.Remove(uni);
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var u = await _db.Universities.FindAsync(id);
+            if (u == null) return NotFound("Không tìm thấy trường đại học.");
 
-        // Bước 4: Lưu thay đổi vào Database (Lúc này mới xóa thật)
-        await _context.SaveChangesAsync();
+            return Ok(new UniversityDto
+            {
+                UniversityID = u.UniversityID,
+                UniversityCode = u.UniversityCode,
+                UniversityName = u.UniversityName,
+                Province = u.Province,
+                Website = u.Website,
+                Description = u.Description,
+                LogoUrl = u.LogoUrl
+            });
+        }
 
-        // Bước 5: Báo về là xóa xong rồi
-        return Ok(new { message = "Đã xóa banh xác!", idDeleted = id });
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] UniversityCreateRequest req)
+        {
+            var existed = await _db.Universities.AnyAsync(x => x.UniversityCode == req.UniversityCode);
+            if (existed) return BadRequest("Mã trường đã tồn tại.");
+
+            var uni = new University
+            {
+                UniversityCode = req.UniversityCode,
+                UniversityName = req.UniversityName,
+                Province = req.Province,
+                Website = req.Website,
+                Description = req.Description ?? "",
+                LogoUrl = req.LogoUrl ?? ""
+            };
+
+            _db.Universities.Add(uni);
+            await _db.SaveChangesAsync();
+            return Ok("Thêm trường đại học thành công!");
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UniversityUpdateRequest req)
+        {
+            if (id != req.UniversityID) return BadRequest("Id không khớp.");
+
+            var u = await _db.Universities.FindAsync(id);
+            if (u == null) return NotFound("Không tìm thấy trường đại học.");
+
+            var existed = await _db.Universities.AnyAsync(x => x.UniversityID != id && x.UniversityCode == req.UniversityCode);
+            if (existed) return BadRequest("Mã trường đã tồn tại.");
+
+            u.UniversityCode = req.UniversityCode;
+            u.UniversityName = req.UniversityName;
+            u.Province = req.Province;
+            u.Website = req.Website;
+            u.Description = req.Description ?? "";
+            u.LogoUrl = req.LogoUrl ?? "";
+
+            await _db.SaveChangesAsync();
+            return Ok("Cập nhật trường đại học thành công!");
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var u = await _db.Universities.FindAsync(id);
+            if (u == null) return NotFound("Không tìm thấy trường đại học.");
+
+            _db.Universities.Remove(u);
+            await _db.SaveChangesAsync();
+            return Ok("Đã xóa trường đại học.");
+        }
+    }
+
+    // =========================
+    // DTOs (tạm để chung file)
+    // =========================
+    public class UniversityDto
+    {
+        public int UniversityID { get; set; }
+        public string? UniversityCode { get; set; }
+        public string? UniversityName { get; set; }
+        public string? Province { get; set; }
+        public string? Website { get; set; }
+        public string? Description { get; set; }
+        public string? LogoUrl { get; set; }
+    }
+
+    public class UniversityCreateRequest
+    {
+        public string UniversityCode { get; set; } = "";
+        public string UniversityName { get; set; } = "";
+        public string? Province { get; set; }
+        public string? Website { get; set; }
+        public string? Description { get; set; }
+        public string? LogoUrl { get; set; }
+    }
+
+    public class UniversityUpdateRequest : UniversityCreateRequest
+    {
+        public int UniversityID { get; set; }
     }
 }
