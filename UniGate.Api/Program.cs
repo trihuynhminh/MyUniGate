@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniGate.API.Controllers;
 using UniGate.Infrastructure;
+using UniGate.Api.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // 1. KẾT NỐI SqlServer
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(connectionString));
-
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddScoped<MajorService>();
 
 // 1. Add CORS policy
 builder.Services.AddCors(options =>
@@ -24,8 +25,9 @@ builder.Services.AddCors(options =>
 
 // 2. Add Controllers, Swagger, DbContext...
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer(); // Bắt buộc cho Swagger
+builder.Services.AddSwaggerGen();           // Dùng cái này thay vì AddOpenApi
+builder.Services.AddScoped<MajorService>();
 
 var app = builder.Build();
 
@@ -35,12 +37,14 @@ app.UseCors("AllowAll");
 // 4. Configure pipeline
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger();     // Tạo file JSON Swagger
+    app.UseSwaggerUI();   // Tạo giao diện web để test API
+
 }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
 
 app.Run();

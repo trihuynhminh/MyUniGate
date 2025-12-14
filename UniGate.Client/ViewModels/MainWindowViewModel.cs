@@ -9,20 +9,38 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase _currentPage;
 
+    [ObservableProperty]
+    private bool _isSidebarVisible = true;
+
     public MainWindowViewModel()
     {
-        // Mặc định mở lên là vào trang Danh sách trường luôn
-        CurrentPage = new UniversityListViewModel();
+        CurrentPage = new LoginViewModel();
+        IsSidebarVisible = true;
     }
 
     // Lệnh chuyển trang (để gắn vào nút bấm)
     [RelayCommand]
     public void GoToUniversityList()
     {
+        IsSidebarVisible = true;
         CurrentPage = new UniversityListViewModel();
     }
 
     // Ví dụ sau này anh làm thêm HomeViewModel thì thêm hàm này
-    // [RelayCommand]
-    // public void GoToHome() => CurrentPage = new HomeViewModel();
+    [RelayCommand]
+    public void GoToHome()
+    {
+        IsSidebarVisible = true;
+        CurrentPage = new HomeViewModel();
+    }
+
+    [RelayCommand]
+    public void GoToLogin()
+    {
+        IsSidebarVisible = true;
+        CurrentPage = new LoginViewModel();
+    }
+
+
+
 }

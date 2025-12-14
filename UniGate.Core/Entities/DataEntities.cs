@@ -6,16 +6,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace UniGate.Core.Entities;
 
-[Table("ScoreConversions")]
-public class ScoreConversion
-{
-    [Key] public int ConversionID { get; set; }
-    [Required, MaxLength(50)] public string CertificateName { get; set; } = string.Empty;
-    [Column(TypeName = "decimal(5,2)")] public decimal OriginalScore { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal ConvertedScore { get; set; }
-    public short? ExamYear { get; set; }
-}
-
 [Table("GroupScoreDistributions")]
 public class GroupScoreDistribution
 {
@@ -41,33 +31,92 @@ public class UserSelectedCombo
     [ForeignKey("GroupID")] public SubjectGroup? SubjectGroup { get; set; }
 }
 
-// Bảng điểm "siêu to khổng lồ"
-[Table("UserScores")]
+// Bảng điểm "siêu to khổng lồ"[Table("UserScores")]
 public class UserScore
 {
-    [Key, ForeignKey("User")] public int UserID { get; set; }
+    // Khóa chính đồng thời là khóa ngoại trỏ về User (Quan hệ 1-1)
+    [Key, ForeignKey("User")]
+    public int UserID { get; set; }
 
-    // HỌC BẠ
+    // --- HỌC BẠ (Phải khai báo đầy đủ như SQL) ---
+
+    // Toán
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Toan_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Toan_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Toan_12 { get; set; }
-    // ... (Anh tự copy thêm các môn khác tương tự nếu muốn đủ bộ 100%, em viết mẫu đại diện)
+
+    // Văn
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_12 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Anh_10 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Anh_11 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Anh_12 { get; set; }
 
-    // THPT QG
+    // Sử
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_12 { get; set; }
+
+    // Địa
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_12 { get; set; }
+
+    // GD KT & PL
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_GDKTPL_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_GDKTPL_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_GDKTPL_12 { get; set; }
+
+    // Lý
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_12 { get; set; }
+
+    // Hóa
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_12 { get; set; }
+
+    // Sinh
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_12 { get; set; }
+
+    // Tin
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_12 { get; set; }
+
+    // Công nghệ
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_CongNghe_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_CongNghe_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_CongNghe_12 { get; set; }
+
+    // --- NGOẠI NGỮ (Lưu ý tên cột trong SQL là Ngoại Ngữ chứ không phải Anh) ---
+    [MaxLength(50)] public string HB_NgoaiNgu_Mon { get; set; } = string.Empty; // Ví dụ: "Tiếng Anh", "Tiếng Nhật"
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_10 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_11 { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_12 { get; set; }
+
+    // --- ĐIỂM THI THPT QUỐC GIA ---
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Toan { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Van { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Anh { get; set; }
 
-    // Ưu Tiên
+    // Môn tự chọn (Lý/Hóa/Sử...)
+    [MaxLength(50)] public string Thpt_TuChon1_Mon { get; set; } = string.Empty;
+    [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_TuChon1_Diem { get; set; }
+
+    [MaxLength(50)] public string Thpt_TuChon2_Mon { get; set; } = string.Empty;
+    [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_TuChon2_Diem { get; set; }
+
+    // --- ĐÁNH GIÁ NĂNG LỰC ---
+    [Column(TypeName = "decimal(5,2)")] public decimal? DGNL_NgonNgu { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? DGNL_Toan { get; set; }
+    [Column(TypeName = "decimal(5,2)")] public decimal? DGNL_TuDuy { get; set; }
+
+    // --- ƯU TIÊN ---
     [MaxLength(50)] public string KhuVuc { get; set; } = string.Empty;
     [MaxLength(50)] public string DoiTuong { get; set; } = string.Empty;
     [Column(TypeName = "decimal(5,2)")] public decimal? DiemCongThem { get; set; }
 
+    // Navigation Property
     public virtual User? User { get; set; }
 }
