@@ -50,7 +50,7 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_12 { get; set; }
 
-<<<<<<< HEAD
+
     // Sử
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_11 { get; set; }
@@ -67,29 +67,25 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_GDKTPL_12 { get; set; }
 
     // Lý
-=======
->>>>>>> api-ngành-theo-khối(client+admin)
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_12 { get; set; }
 
-<<<<<<< HEAD
     // Hóa
-=======
->>>>>>> api-ngành-theo-khối(client+admin)
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_12 { get; set; }
 
-<<<<<<< HEAD
+
     // Sinh
-=======
->>>>>>> api-ngành-theo-khối(client+admin)
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_12 { get; set; }
 
-<<<<<<< HEAD
+
     // Tin
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_11 { get; set; }
@@ -107,31 +103,17 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_12 { get; set; }
 
     // --- ĐIỂM THI THPT QUỐC GIA ---
-=======
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_10 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_11 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Dia_12 { get; set; }
 
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_10 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_11 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_12 { get; set; }
+    
 
-    [Column(TypeName = "NVARCHAR(50)")] public decimal? HB_NgoaiNgu_Mon { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_10 { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_11 { get; set; }
 
-    [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_12 { get; set; }
-    [Column(TypeName = "NVARCHAR(50)")] public decimal? Thpt_TuChon1_Mon { get; set; }
-    [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_TuChon1_Diem { get; set; }
-
-    [Column(TypeName = "NVARCHAR(50)")] public decimal? Thpt_TuChon2_Mon { get; set; }
-
-    [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_TuChon2_Diem { get; set; }
+    
+   
 
 
 
     // THPT QG
->>>>>>> api-ngành-theo-khối(client+admin)
+
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Toan { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Van { get; set; }
 
