@@ -8,22 +8,55 @@
         x:DataType="vm:MainWindowViewModel"
         Title="UniGate Desktop App"
         TransparencyLevelHint="AcrylicBlur"
-        Background="White">
+        Background="White"
+        WindowStartupLocation="CenterScreen">
 
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <Grid ColumnDefinitions="250, *">
-        <Border Grid.Column="0" Background="#f0f4f8" BorderBrush="#e1e4e8" BorderThickness="0,0,1,0">
-            <StackPanel Spacing="10" Margin="15">
-                <TextBlock Text="UniGate" FontSize="28" FontWeight="Bold" Foreground="#2c3e50" Margin="0,0,0,20"/>
+    <Grid ColumnDefinitions="Auto, *">
+        
+        <Border Grid.Column="0" 
+                Width="250"
+                IsVisible="{Binding IsSidebarVisible}"
+                Background="#f0f4f8" 
+                BorderBrush="#e1e4e8" 
+                BorderThickness="0,0,1,0">
+            
+            <StackPanel Spacing="5" Margin="15">
+                <TextBlock Text="UniGate" FontSize="28" FontWeight="Bold" 
+                           Foreground="#2c3e50" Margin="10,0,0,20"/>
                 
-                <Button Content="🏫 Tra Cứu Trường" 
-                        Command="{Binding GoToUniversityListCommand}" 
-                        HorizontalAlignment="Stretch" Background="#e1e4e8" FontWeight="Bold"/>
+                <Button Command="{Binding GoToHomeCommand}"
+                        Content="🏠 Trang Chủ" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent" 
+                        FontWeight="SemiBold"
+                        Padding="10"/>
+
+                <Button Command="{Binding GoToUniversityListCommand}" 
+                        Content="🏫 Tra Cứu Trường" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent" 
+                        FontWeight="SemiBold"
+                        Padding="10"/>
+                
+                <Button Content="📝 Trắc Nghiệm" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent" 
+                        FontWeight="SemiBold"
+                        Padding="10"/>
+                
+                <Separator Margin="0,10" Opacity="0.3"/>
+
+                <Button Command="{Binding GoToLoginCommand}"
+                        Content="👤 Đăng Nhập / Tài Khoản" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Left"
+                        Background="Transparent" 
+                        FontWeight="SemiBold"
+                        Padding="10"/>
                         
-                <Button Content="👤 Tài Khoản" HorizontalAlignment="Stretch" Background="Transparent"/>
             </StackPanel>
         </Border>
 

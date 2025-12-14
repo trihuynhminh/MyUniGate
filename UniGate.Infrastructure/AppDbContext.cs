@@ -13,7 +13,6 @@ public class AppDbContext : DbContext
     public DbSet<Region> Regions { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
-    public DbSet<ScoreConversion> ScoreConversions { get; set; }
     public DbSet<TestType> TestTypes { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<UserAnswer> UserAnswers { get; set; }

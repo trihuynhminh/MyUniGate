@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
+             xmlns:vm="using:UniGate.Client.ViewModels"
+             xmlns:models="using:UniGate.Client.Models"
+             
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UniGate.Client.Views.SearchView"
+             
+             x:DataType="vm:SearchViewModel">
+
+  <StackPanel Margin="20" Spacing="10">
+    <TextBlock Text="Tra cứu Đại học" FontSize="20" FontWeight="Bold"/>
+
+    <StackPanel Orientation="Horizontal" Spacing="10">
+      <TextBox Text="{Binding ScoreInput}" 
+               Watermark="Nhập điểm thi (VD: 24.5)" 
+               Width="200"/>
+      
+      <ComboBox ItemsSource="{Binding SubjectGroups}" 
+                SelectedItem="{Binding SelectedGroup}" 
+                Width="100"/>
+      
+      <Button Command="{Binding SearchCommand}" 
+              Content="Tìm kiếm"/>
+    </StackPanel>
+
+    <TextBlock Text="{Binding StatusMessage}" 
+               Foreground="Red" 
+               FontStyle="Italic"/>
+
+    <ListBox ItemsSource="{Binding SearchResults}" Height="400">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="models:MajorDto">
+          <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="5" Padding="10" Margin="0,5">
+            <StackPanel>
+              <TextBlock Text="{Binding UniversityName}" FontWeight="Bold" FontSize="16"/>
+              <StackPanel Orientation="Horizontal" Spacing="10">
+                 <TextBlock Text="{Binding MajorName}" FontWeight="SemiBold"/>
+                 <TextBlock Text="{Binding MajorCode}" Foreground="Gray"/>
+              </StackPanel>
+              
+              <StackPanel Orientation="Horizontal" Spacing="20" Margin="0,5,0,0">
+                <TextBlock Text="{Binding StandardScore, StringFormat='Điểm chuẩn: {0}'}"/>
+                <TextBlock Text="{Binding SafeMargin, StringFormat='Dư: {0} điểm'}" Foreground="Green"/>
+              </StackPanel>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+  </StackPanel>
+</UserControl>

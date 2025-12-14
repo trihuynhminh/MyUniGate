@@ -1,33 +1,31 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using UniGate.Client.ViewModels;
 
 namespace UniGate.Client;
 
-/// <summary>
-/// Given a view model, returns the corresponding view if possible.
-/// </summary>
-[RequiresUnreferencedCode(
-    "Default implementation of ViewLocator involves reflection which may be trimmed away.",
-    Url = "https://docs.avaloniaui.net/docs/concepts/view-locator")]
 public class ViewLocator : IDataTemplate
 {
-    public Control? Build(object? param)
+    public Control? Build(object? data)
     {
-        if (param is null)
+        if (data is null)
             return null;
-        
-        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+
+        var name = data.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+        // Logic: Nó sẽ tự đổi tên:
+        // UniGate.Client.ViewModels.HomeViewModel 
+        // -> UniGate.Client.Views.HomeView
+
         var type = Type.GetType(name);
 
         if (type != null)
         {
             return (Control)Activator.CreateInstance(type)!;
         }
-        
-        return new TextBlock { Text = "Not Found: " + name };
+
+        // Nếu không tìm thấy, nó hiện dòng chữ này giúp mình debug
+        return new TextBlock { Text = "⚠️ Không tìm thấy View: " + name };
     }
 
     public bool Match(object? data)
