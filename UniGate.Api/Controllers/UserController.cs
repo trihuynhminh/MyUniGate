@@ -1,3 +1,4 @@
+/*cái của trí để test --sẽ dời sau*/
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniGate.Core.Entities;

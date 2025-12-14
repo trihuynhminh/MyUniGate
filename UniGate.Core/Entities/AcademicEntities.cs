@@ -17,6 +17,7 @@ public class University
     [MaxLength(255)] public string? Website { get; set; }
     [MaxLength(500)] public string? Description { get; set; }
     [MaxLength(255)] public string? LogoUrl { get; set; }
+    
 }
 
 [Table("Majors")]

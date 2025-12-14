@@ -9,3 +9,4 @@ public partial class MainWindow : Window // <--- Phải có chữ partial và t�
         InitializeComponent();
     }
 }
+

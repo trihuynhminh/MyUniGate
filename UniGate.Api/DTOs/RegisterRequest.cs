@@ -1,3 +1,5 @@
+/*mẫu đăng ký user để test của trí*/
+
 namespace UniGate.Api.DTOs;
 
 public class RegisterRequest

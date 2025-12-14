@@ -1,3 +1,4 @@
+/*lọc ngành phù hợp tính cách và điểm thi và khối thi của trí*/
 using Microsoft.AspNetCore.Mvc;
 using UniGate.Api.Services;
 using UniGate.Api.DTOs;
@@ -28,12 +29,4 @@ public class MajorController : ControllerBase
         return Ok(result);
     }
 
-}
-
-// Class nhận dữ liệu từ Client gửi lên
-public class FilterRequest
-{
-    public float Score { get; set; }
-    public string Group { get; set; } = "";
-    public string? PersonalityType { get; set; } // VD: "INTJ" hoặc null
 }

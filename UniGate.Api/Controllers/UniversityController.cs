@@ -1,3 +1,4 @@
+/*controler trường đại học của trí, dùng lấy dữ liệu của trí*/
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniGate.Core.Entities;
