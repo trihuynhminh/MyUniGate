@@ -34,6 +34,8 @@ public class SubjectGroup
     [Key] public int GroupID { get; set; }
     [Required, MaxLength(10)] public string GroupName { get; set; } = string.Empty;
     [Required, MaxLength(100)] public string Subjects { get; set; } = string.Empty;
+    
+    public virtual ICollection<GroupScoreDistribution> GroupScoreDistributions { get; set; } = new List<GroupScoreDistribution>();
 }
 
 [Table("MajorGroups")]

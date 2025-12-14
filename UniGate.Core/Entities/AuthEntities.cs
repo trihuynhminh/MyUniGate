@@ -42,12 +42,20 @@ public class User
 [Table("PasswordResetTokens")]
 public class PasswordResetToken
 {
-    [Key] public int TokenID { get; set; }
+    [Key]
+    public int TokenID { get; set; }
+
     public int UserID { get; set; }
-    [Required, MaxLength(255)] public string TokenCode { get; set; } = string.Empty;
+
+    [Required, MaxLength(255)]
+    public string TokenCode { get; set; } = string.Empty;
+
     public DateTime ExpiryDate { get; set; }
+
     public bool IsUsed { get; set; } // Map TINYINT(1)
+
     public DateTime CreatedDate { get; set; } = DateTime.Now;
 
-    [ForeignKey("UserID")] public User? User { get; set; }
+    [ForeignKey("UserID")]
+    public User? User { get; set; }
 }
