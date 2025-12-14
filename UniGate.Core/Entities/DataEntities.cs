@@ -16,7 +16,8 @@ public class GroupScoreDistribution
     public int CountStudents { get; set; }
     [Column(TypeName = "decimal(5,4)")] public decimal ProbDistribution { get; set; }
 
-    [ForeignKey("GroupID")] public SubjectGroup? SubjectGroup { get; set; }
+    // Navigation property với SubjectGroup
+    [ForeignKey("GroupID")] public virtual SubjectGroup SubjectGroup { get; set; } = null!;
 }
 
 [Table("UserSelectedCombos")]
