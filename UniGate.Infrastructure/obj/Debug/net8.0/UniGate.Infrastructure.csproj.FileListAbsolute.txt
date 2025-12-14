@@ -1,0 +1,17 @@
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Infrastructure.deps.json
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Infrastructure.runtimeconfig.json
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Infrastructure.dll
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Infrastructure.pdb
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Core.dll
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/bin/Debug/net8.0/UniGate.Core.pdb
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.csproj.AssemblyReference.cache
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.AssemblyInfoInputs.cache
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.AssemblyInfo.cs
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate..C322AC6A.Up2Date
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.dll
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/refint/UniGate.Infrastructure.dll
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.pdb
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/UniGate.Infrastructure.genruntimeconfig.cache
+/Users/huynhminhtri/MyUniGate/UniGate.Infrastructure/obj/Debug/net8.0/ref/UniGate.Infrastructure.dll

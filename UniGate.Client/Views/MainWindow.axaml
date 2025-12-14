@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:UniGate.Client.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="UniGate.Client.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="UniGate Desktop App"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="White">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="250, *">
+        <Border Grid.Column="0" Background="#f0f4f8" BorderBrush="#e1e4e8" BorderThickness="0,0,1,0">
+            <StackPanel Spacing="10" Margin="15">
+                <TextBlock Text="UniGate" FontSize="28" FontWeight="Bold" Foreground="#2c3e50" Margin="0,0,0,20"/>
+                
+                <Button Content="🏫 Tra Cứu Trường" 
+                        Command="{Binding GoToUniversityListCommand}" 
+                        HorizontalAlignment="Stretch" Background="#e1e4e8" FontWeight="Bold"/>
+                        
+                <Button Content="👤 Tài Khoản" HorizontalAlignment="Stretch" Background="Transparent"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Column="1">
+            <TransitioningContentControl Content="{Binding CurrentPage}" />
+        </Border>
+    </Grid>
+</Window>
