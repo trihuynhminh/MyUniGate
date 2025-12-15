@@ -45,7 +45,8 @@ public class MajorController : ControllerBase
         var m = _db.Majors
             .Include(x => x.MajorGroups)
             .ThenInclude(g => g.SubjectGroup)
-            .Select(x => new
+            .Where(x => x.MajorID == id)
+            .Select(x => new MajorDetailDto
             {
                 Id = x.MajorID,
                 MajorCode = x.MajorCode,

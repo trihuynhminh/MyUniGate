@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniGate.Infrastructure;
 using UniGate.Core.Entities;
+using UniGate.Api.DTOs;
 
 namespace UniGate.Api.Controllers
 {
@@ -194,24 +195,5 @@ namespace UniGate.Api.Controllers
         }
     }
 
-    // ============================
-    // DTO gần giống cũ, nhưng hợp DB mới
-    // ============================
-    public class MajorCreateRequest
-    {
-        public string? MajorCode { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string? Description { get; set; }
-
-        // thay ComboIds -> GroupIds (SubjectGroups)
-        public List<int> GroupIds { get; set; } = new();
-
-        // optional: để đúng bảng MajorGroups (ExamYear)
-        public short? ExamYear { get; set; }
-    }
-
-    public class MajorUpdateRequest : MajorCreateRequest
-    {
-        public int Id { get; set; }
-    }
+   
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using UniGate.Core.Entities;
 using UniGate.Infrastructure;
+using UniGate.Api.DTOs;
 
 namespace UniGate.Api.Controllers
 {
@@ -28,7 +29,7 @@ namespace UniGate.Api.Controllers
                 return NotFound("Chưa có điểm học bạ hoặc THPT!");
 
             var combos = _db.SubjectGroups.AsNoTracking().ToList();
-            var result = new List<object>();
+            var result = new List<ComboScoreDto>();
 
             foreach (var combo in combos)
             {
@@ -41,15 +42,15 @@ namespace UniGate.Api.Controllers
                 decimal? total = TinhCombo(scores, subjects);
                 if (total != null)
                 {
-                    result.Add(new
+                    result.Add(new ComboScoreDto
                     {
                         Combo = combo.GroupName,
-                        Score = total
+                        Score = total.Value
                     });
                 }
             }
 
-            var sorted = result.OrderByDescending(x => ((dynamic)x).Score);
+            var sorted = result.OrderByDescending(x => x.Score);
             return Ok(sorted);
         }
 

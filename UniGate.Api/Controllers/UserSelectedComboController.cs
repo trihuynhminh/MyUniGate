@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using UniGate.Core.Entities;
 using UniGate.Infrastructure;
+using UniGate.Api.DTOs;
 
 
 namespace UniGate.Api.Controllers
@@ -17,14 +18,7 @@ namespace UniGate.Api.Controllers
             _db = db;
         }
 
-        // ========================
-        // === DTO nội bộ =========
-        // ========================
-        public class UserComboSelectRequest
-        {
-            public int UserId { get; set; }
-            public List<string>? GroupNames { get; set; } // ví dụ: ["A00", "A01", "D01"]
-        }
+       
 
         // ========================
         // === POST: chọn combo ===

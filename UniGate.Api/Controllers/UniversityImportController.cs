@@ -4,6 +4,7 @@ using UniGate.Core.Entities;
 using UniGate.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using UniGate.Api.DTOs;
 
 namespace UniGate.Api.Controllers
 {
@@ -18,11 +19,7 @@ namespace UniGate.Api.Controllers
             _db = db;
         }
 
-        // DTO để Swagger hiển thị nút Choose File
-        public class FileUploadDto
-        {
-            public IFormFile File { get; set; }
-        }
+     
 
         // Import Universities (tên route vẫn giữ là "schools" để tương thích cũ)
         // Excel format:
