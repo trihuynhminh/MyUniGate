@@ -4,6 +4,7 @@ using UniGate.Infrastructure;
 using UniGate.Core.Entities;
 using MailKit.Net.Smtp;
 using MimeKit;
+using UniGate.Api.DTOs;
 using System;
 using System.Threading.Tasks;
 
@@ -117,18 +118,5 @@ namespace UniGate.API.Controllers
         }
     }
 
-    // DTOs
-    public class ForgotPasswordRequest { public string Email { get; set; } = string.Empty; }
-    public class ResetPasswordRequest { public string Token { get; set; } = string.Empty; public string NewPassword { get; set; } = string.Empty; }
-
-    // Config classes
-    public class SmtpSettings
-    {
-        public string Host { get; set; } = "";
-        public int Port { get; set; }
-        public string User { get; set; } = "";
-        public string AppPassword { get; set; } = "";
-        public string FromName { get; set; } = "";
-        public string FromEmail { get; set; } = "";
-    }
+    
 }
