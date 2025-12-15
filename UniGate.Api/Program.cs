@@ -1,13 +1,19 @@
 using Microsoft.EntityFrameworkCore;
-using UniGate.Infrastructure;
+using Microsoft.Extensions.Options;
 using UniGate.Api.Services;
+using UniGate.API.Controllers;
+using UniGate.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- 1. CẤU HÌNH DATABASE ĐA NĂNG ---
-// Lấy cấu hình DatabaseProvider từ appsettings.json
-var databaseProvider = builder.Configuration["DatabaseProvider"];
-var connectionString = "";
+// 1. KẾT NỐI SqlServer
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+
+
 
 if (databaseProvider == "SqlServer")
 {

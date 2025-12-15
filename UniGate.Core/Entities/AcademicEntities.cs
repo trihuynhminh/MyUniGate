@@ -27,6 +27,8 @@ public class Major
     [MaxLength(10)] public string? MajorCode { get; set; }
     [Required, MaxLength(150)] public string MajorName { get; set; } = string.Empty;
     [MaxLength(500)] public string? Description { get; set; }
+
+    public virtual ICollection<MajorGroup> MajorGroups { get; set; } = new List<MajorGroup>();
 }
 
 [Table("SubjectGroups")]
@@ -35,8 +37,13 @@ public class SubjectGroup
     [Key] public int GroupID { get; set; }
     [Required, MaxLength(10)] public string GroupName { get; set; } = string.Empty;
     [Required, MaxLength(100)] public string Subjects { get; set; } = string.Empty;
+
     
     public virtual ICollection<GroupScoreDistribution> GroupScoreDistributions { get; set; } = new List<GroupScoreDistribution>();
+
+
+    public ICollection<MajorGroup> MajorGroups { get; set; } = new List<MajorGroup>();
+
 }
 
 [Table("MajorGroups")]
@@ -49,6 +56,10 @@ public class MajorGroup
 
     [ForeignKey("MajorID")] public Major? Major { get; set; }
     [ForeignKey("GroupID")] public SubjectGroup? SubjectGroup { get; set; }
+
+
+
+    
 }
 
 [Table("Admissions")]

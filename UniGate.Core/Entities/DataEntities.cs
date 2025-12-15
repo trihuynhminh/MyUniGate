@@ -50,6 +50,7 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Van_12 { get; set; }
 
+
     // Sử
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Su_11 { get; set; }
@@ -66,19 +67,24 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_GDKTPL_12 { get; set; }
 
     // Lý
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Ly_12 { get; set; }
 
     // Hóa
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Hoa_12 { get; set; }
 
+
     // Sinh
+
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_10 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_11 { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Sinh_12 { get; set; }
+
 
     // Tin
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_Tin_10 { get; set; }
@@ -97,6 +103,17 @@ public class UserScore
     [Column(TypeName = "decimal(5,2)")] public decimal? HB_NgoaiNgu_12 { get; set; }
 
     // --- ĐIỂM THI THPT QUỐC GIA ---
+
+    
+
+
+    
+   
+
+
+
+    // THPT QG
+
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Toan { get; set; }
     [Column(TypeName = "decimal(5,2)")] public decimal? Thpt_Van { get; set; }
 
