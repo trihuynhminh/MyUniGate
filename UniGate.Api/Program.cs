@@ -4,7 +4,6 @@ using UniGate.Api.Services;
 using UniGate.API.Controllers;
 using UniGate.Infrastructure;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. KẾT NỐI SqlServer
@@ -16,39 +15,41 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 
-// 1. Add CORS policy
-builder.Services.AddCors(options =>
+if (databaseProvider == "SqlServer")
 {
-    options.AddPolicy("AllowAll", policy =>
-    {
-        policy.AllowAnyOrigin()   // cho phép tất cả origin
-              .AllowAnyHeader()   // cho phép tất cả headers
-              .AllowAnyMethod();  // cho phép tất cả phương thức
-    });
-});
+    // MÁY BẠN: Dùng SQL Server
+    connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+else
+{
+    // MÁY TRÍ: Dùng MySQL (Mặc định)
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+}
 
-// 2. Add Controllers, Swagger, DbContext...
+// --- 2. CẤU HÌNH DỊCH VỤ ---
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer(); // Bắt buộc cho Swagger
-builder.Services.AddSwaggerGen();           // Dùng cái này thay vì AddOpenApi
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Đăng ký Service
 builder.Services.AddScoped<MajorService>();
+// builder.Services.AddScoped<UserService>(); // (Nếu có thì uncomment)
 
 var app = builder.Build();
 
-// 3. Use CORS
-app.UseCors("AllowAll");
-
-// 4. Configure pipeline
+// --- 3. CẤU HÌNH PIPELINE ---
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();     // Tạo file JSON Swagger
-    app.UseSwaggerUI();   // Tạo giao diện web để test API
-
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-
 
 app.Run();

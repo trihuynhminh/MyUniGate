@@ -1,3 +1,4 @@
+/*cái này gemini tạo cho trí, test app chạy đc ko, sẽ xoá*/
 using Microsoft.AspNetCore.Mvc;
 
 namespace UniGate.Api.Controllers;
