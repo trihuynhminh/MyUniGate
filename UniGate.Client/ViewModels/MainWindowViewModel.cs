@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using UniGate.Client.ViewModels;
 
 namespace UniGate.Client.ViewModels;
 
@@ -40,7 +41,5 @@ public partial class MainWindowViewModel : ViewModelBase
         IsSidebarVisible = true;
         CurrentPage = new LoginViewModel();
     }
-
-
 
 }

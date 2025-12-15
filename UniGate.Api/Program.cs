@@ -1,28 +1,41 @@
 using Microsoft.EntityFrameworkCore;
-using UniGate.API.Controllers;
 using UniGate.Infrastructure;
 using UniGate.Api.Services;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. KẾT NỐI MYSQL
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+// --- 1. CẤU HÌNH DATABASE ĐA NĂNG ---
+// Lấy cấu hình DatabaseProvider từ appsettings.json
+var databaseProvider = builder.Configuration["DatabaseProvider"];
+var connectionString = "";
 
+if (databaseProvider == "SqlServer")
+{
+    // MÁY BẠN: Dùng SQL Server
+    connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+else
+{
+    // MÁY TRÍ: Dùng MySQL (Mặc định)
+    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+}
 
-// 2. CẤU HÌNH DỊCH VỤ (NET 8 CHUẨN)
+// --- 2. CẤU HÌNH DỊCH VỤ ---
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Đăng ký Service (Chỉ cần 1 dòng này là đủ, nãy bị thừa)
+// Đăng ký Service
 builder.Services.AddScoped<MajorService>();
+// builder.Services.AddScoped<UserService>(); // (Nếu có thì uncomment)
 
 var app = builder.Build();
 
-// 3. CẤU HÌNH PIPELINE
+// --- 3. CẤU HÌNH PIPELINE ---
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
