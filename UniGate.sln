@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniGate.Admin", "UniGate.Ad
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniGate.Student", "UniGate.Student\UniGate.Student.csproj", "{4A9D39E6-751D-4517-8812-7A48FDE1492B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniGate.Shared", "UniGate.Shared\UniGate.Shared.csproj", "{41634158-83BC-4593-9BFD-9D2B686EBC9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,8 +99,23 @@ Global
 		{4A9D39E6-751D-4517-8812-7A48FDE1492B}.Release|x64.Build.0 = Release|Any CPU
 		{4A9D39E6-751D-4517-8812-7A48FDE1492B}.Release|x86.ActiveCfg = Release|Any CPU
 		{4A9D39E6-751D-4517-8812-7A48FDE1492B}.Release|x86.Build.0 = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|x64.Build.0 = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Debug|x86.Build.0 = Debug|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|x64.ActiveCfg = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|x64.Build.0 = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|x86.ActiveCfg = Release|Any CPU
+		{41634158-83BC-4593-9BFD-9D2B686EBC9F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0F06DEA4-ECD2-4282-9556-8DC525D95681}
 	EndGlobalSection
 EndGlobal
