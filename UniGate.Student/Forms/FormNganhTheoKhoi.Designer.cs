@@ -32,10 +32,10 @@ namespace UniGate.Student.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormNganhTheoKhoi));
             label1 = new Label();
             lblKhoiDaChon = new Label();
-            listViewNganh = new ListView();
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -62,26 +62,29 @@ namespace UniGate.Student.Forms
             lblKhoiDaChon.TabIndex = 3;
             lblKhoiDaChon.Text = "Tổ hợp bạn đã chọn:";
             // 
-            // listViewNganh
+            // dataGridView1
             // 
-            listViewNganh.Location = new Point(71, 186);
-            listViewNganh.Name = "listViewNganh";
-            listViewNganh.Size = new Size(901, 349);
-            listViewNganh.TabIndex = 4;
-            listViewNganh.UseCompatibleStateImageBehavior = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(50, 129);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 82;
+            dataGridView1.Size = new Size(1390, 403);
+            dataGridView1.TabIndex = 4;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // FormNganhTheoKhoi
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-         
-            ClientSize = new Size(1020, 576);
-            Controls.Add(listViewNganh);
+            ClientSize = new Size(1475, 576);
+            Controls.Add(dataGridView1);
             Controls.Add(lblKhoiDaChon);
             Controls.Add(label1);
             ForeColor = SystemColors.ActiveCaptionText;
             Name = "FormNganhTheoKhoi";
             Text = "FormNganhTheoKhoi";
+            Load += FormNganhTheoKhoi_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -90,6 +93,6 @@ namespace UniGate.Student.Forms
 
         private Label label1;
         private Label lblKhoiDaChon;
-        private ListView listViewNganh;
+        private DataGridView dataGridView1;
     }
 }

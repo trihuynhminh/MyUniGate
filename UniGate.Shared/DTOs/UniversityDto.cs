@@ -1,0 +1,12 @@
+﻿namespace UniGate.Shared.DTOs;
+
+public class UniversityDto
+{
+    public int UniversityID { get; set; }
+    public string? UniversityCode { get; set; }
+    public string? UniversityName { get; set; }
+    public string? Province { get; set; }
+    public string? Website { get; set; }
+    public string? Description { get; set; }
+    public string? LogoUrl { get; set; }
+}

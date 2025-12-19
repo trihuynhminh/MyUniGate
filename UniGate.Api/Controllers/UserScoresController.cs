@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using UniGate.Api.DTOs;
 using UniGate.Api.Services;
-//using UniGate.Application.DTOs.Score;
+
 using UniGate.Core.Entities;
 using UniGate.Infrastructure;
 

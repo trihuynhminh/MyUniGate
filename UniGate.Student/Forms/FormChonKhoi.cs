@@ -43,7 +43,7 @@ namespace UniGate.Student.Forms
             listView_Khoi.GridLines = true;
 
             listView_Khoi.Columns.Clear();
-            listView_Khoi.Columns.Add("Tổ hợp", 80);
+            listView_Khoi.Columns.Add("Tổ hợp", 100);
             listView_Khoi.Columns.Add("Điểm", 70);
             listView_Khoi.Columns.Add("Chi tiết", 300);
         }
@@ -135,8 +135,8 @@ namespace UniGate.Student.Forms
                 return;
             }
 
-            //var frm = new FormNganhTheoKhoi(_selectedCombos);
-            //frm.ShowDialog();
+            var frm = new FormNganhTheoKhoi(_selectedCombos);
+            frm.ShowDialog();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace UniGate.Api.DTOs
+﻿using UniGate.Api.DTOs;
+
+namespace UniGate.Api.DTOs
 {
     public class MajorUpdateRequest : MajorCreateRequest
     {

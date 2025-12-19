@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using UniGate.Infrastructure;
+
 using UniGate.Core.Entities;
+using UniGate.Infrastructure;
 using UniGate.Api.DTOs;
+using UniGate.Shared.DTOs;
 
 namespace UniGate.Api.Controllers
 {
@@ -23,47 +25,67 @@ namespace UniGate.Api.Controllers
         // Output giống cũ: Id, MajorCode, Name, SchoolId, SchoolName, Combos
         // ===========================================
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? schoolId)
+        public async Task<IActionResult> GetAll([FromQuery] int schoolId)
         {
-            var query = _db.Majors
-                .AsNoTracking()
-                .Include(m => m.MajorGroups)
-                    .ThenInclude(mg => mg.SubjectGroup)
-                .AsQueryable();
+            var raw = await (
+        from a in _db.Admissions
+        join m in _db.Majors on a.MajorID equals m.MajorID
+        join g in _db.SubjectGroups on a.GroupID equals g.GroupID
+        join u in _db.Universities on a.UniversityID equals u.UniversityID
+        where a.UniversityID == schoolId
+        select new
+        {
+            a.Year,
+            a.MinScore,
+            MajorID = m.MajorID,
+            m.MajorCode,
+            MajorName = m.MajorName,
+            m.Description,
+            u.UniversityID,
+            u.UniversityName,
+            Combo = g.GroupName
+        }
+    ).ToListAsync(); // 🔥 CHỐT: ToListAsync ở đây
 
-            // Lọc theo "trường" (University) thông qua bảng Admissions
-            if (schoolId.HasValue)
-            {
-                query = query.Where(m =>
-                    _db.Admissions.Any(a => a.MajorID == m.MajorID && a.UniversityID == schoolId.Value));
-            }
-
-            var result = await query
-                .Select(m => new
+            // 2️⃣ XỬ LÝ GROUP + LOGIC Ở RAM
+            var result = raw
+                .GroupBy(x => new
                 {
-                    Id = m.MajorID,
-                    MajorCode = m.MajorCode,
-                    Name = m.MajorName,
-
-                    // giữ tên như cũ
-                    SchoolId = schoolId,
-
-                    // lấy tên trường qua Admissions -> Universities (nếu không truyền schoolId thì có thể null/đại diện)
-                    SchoolName =
-                        (from a in _db.Admissions
-                         join u in _db.Universities on a.UniversityID equals u.UniversityID
-                         where a.MajorID == m.MajorID
-                               && (!schoolId.HasValue || a.UniversityID == schoolId.Value)
-                         select u.UniversityName)
-                        .FirstOrDefault(),
-
-                    // Combos = danh sách mã tổ hợp (A00, D01...) từ SubjectGroups
-                    Combos = m.MajorGroups
-                        .Select(x => x.SubjectGroup.GroupName)
-                        .Distinct()
-                        .ToList()
+                    x.MajorID,
+                    x.MajorCode,
+                    x.MajorName,
+                    x.Description,
+                    x.UniversityID,
+                    x.UniversityName
                 })
-                .ToListAsync();
+                .Select(grp =>
+                {
+                    var latestYear = grp.Max(x => x.Year);
+
+                    return new MajorAdminDto
+                    {
+                        Id = grp.Key.MajorID,
+                        MajorCode = grp.Key.MajorCode,
+                        Name = grp.Key.MajorName,
+                        Description = grp.Key.Description,
+
+                        SchoolId = grp.Key.UniversityID,
+                        SchoolName = grp.Key.UniversityName,
+
+                        Year = latestYear,
+                        CutoffScore = grp
+                            .Where(x => x.Year == latestYear)
+                            .Max(x => x.MinScore),
+
+                        Combos = grp
+                            .Where(x => x.Year == latestYear)
+                            .Select(x => x.Combo)
+                            .Distinct()
+                            .ToList()
+                    };
+                })
+                 .OrderBy(x => x.Id)
+                .ToList();
 
             return Ok(result);
         }
@@ -111,8 +133,21 @@ namespace UniGate.Api.Controllers
         // nên schoolId chỉ dùng để filter hiển thị, không lưu trực tiếp vào Major
         // ===========================================
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] MajorCreateRequest req)
+        public async Task<IActionResult> Create([FromBody] MajorUpsertDto req)
         {
+            if (string.IsNullOrWhiteSpace(req.Name))
+                return BadRequest("Tên ngành không được để trống");
+
+            // ✅ CHECK TRÙNG MajorCode
+            if (!string.IsNullOrWhiteSpace(req.MajorCode))
+            {
+                var exists = await _db.Majors
+                    .AnyAsync(x => x.MajorCode == req.MajorCode);
+
+                if (exists)
+                    return BadRequest("Mã ngành đã tồn tại");
+            }
+
             var major = new Major
             {
                 MajorCode = req.MajorCode,
@@ -123,56 +158,54 @@ namespace UniGate.Api.Controllers
             _db.Majors.Add(major);
             await _db.SaveChangesAsync();
 
-            // Lưu "combo" theo DB mới = insert MajorGroups
-            foreach (var groupId in req.GroupIds.Distinct())
-            {
-                _db.MajorGroups.Add(new MajorGroup
-                {
-                    MajorID = major.MajorID,
-                    GroupID = groupId,
-                    ExamYear = req.ExamYear
-                });
-            }
-
-            await _db.SaveChangesAsync();
-            return Ok("Thêm ngành thành công!");
+            return Ok(major.MajorID);
         }
 
         // ===========================================
         // PUT: api/admin/majors/{id}
         // ===========================================
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] MajorUpdateRequest req)
+        public async Task<IActionResult> Update(int id, [FromBody] MajorUpsertDto req)
         {
-            if (id != req.Id)
-                return BadRequest("Id không khớp.");
+            if (id != req.Id) return BadRequest();
 
-            var m = await _db.Majors
+            var major = await _db.Majors
                 .Include(x => x.MajorGroups)
                 .FirstOrDefaultAsync(x => x.MajorID == id);
 
-            if (m == null) return NotFound("Không tìm thấy ngành.");
+            if (major == null) return NotFound();
 
-            m.MajorCode = req.MajorCode;
-            m.MajorName = req.Name;
-            m.Description = req.Description;
+            major.MajorCode = req.MajorCode;
+            major.MajorName = req.Name;
+            major.Description = req.Description;
 
-            // Xóa group cũ
-            _db.MajorGroups.RemoveRange(m.MajorGroups);
+            _db.MajorGroups.RemoveRange(major.MajorGroups);
 
-            // Thêm group mới
-            foreach (var groupId in req.GroupIds.Distinct())
+            var oldAdmissions = _db.Admissions
+                .Where(a => a.MajorID == id && a.UniversityID == req.UniversityID && a.Year == req.Year);
+            _db.Admissions.RemoveRange(oldAdmissions);
+
+            foreach (var gid in req.GroupIds)
             {
                 _db.MajorGroups.Add(new MajorGroup
                 {
                     MajorID = id,
-                    GroupID = groupId,
-                    ExamYear = req.ExamYear
+                    GroupID = gid,
+                    ExamYear = req.Year
+                });
+
+                _db.Admissions.Add(new Admission
+                {
+                    UniversityID = req.UniversityID,
+                    MajorID = id,
+                    GroupID = gid,
+                    Year = req.Year,
+                    MinScore = req.MinScore
                 });
             }
 
             await _db.SaveChangesAsync();
-            return Ok("Cập nhật ngành thành công!");
+            return Ok();
         }
 
         // ===========================================
@@ -181,19 +214,24 @@ namespace UniGate.Api.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var m = await _db.Majors.FindAsync(id);
-            if (m == null) return NotFound("Không tìm thấy ngành.");
+            var admissions = _db.Admissions.Where(a => a.MajorID == id);
+            _db.Admissions.RemoveRange(admissions);
 
-            // Xóa liên kết MajorGroups trước
-            var links = _db.MajorGroups.Where(x => x.MajorID == id);
-            _db.MajorGroups.RemoveRange(links);
+            var groups = _db.MajorGroups.Where(g => g.MajorID == id);
+            _db.MajorGroups.RemoveRange(groups);
 
-            _db.Majors.Remove(m);
+            var major = await _db.Majors.FindAsync(id);
+            if (major == null) return NotFound();
+
+            _db.Majors.Remove(major);
+
             await _db.SaveChangesAsync();
-
-            return Ok("Đã xoá ngành.");
+            return Ok();
         }
+
+
+
     }
 
-   
+
 }

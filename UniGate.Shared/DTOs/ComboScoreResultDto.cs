@@ -11,4 +11,7 @@ public class ComboScoreResultDto
 
     
     public string Detail { get; set; } = string.Empty;
+
+    // Thông báo/tin nhắn hiển thị lỗi hoặc mô tả cách tính ưu tiên (tiếng Việt)
+    public string Note { get; set; } = string.Empty;
 }

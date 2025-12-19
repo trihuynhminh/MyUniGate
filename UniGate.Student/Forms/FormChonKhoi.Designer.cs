@@ -35,6 +35,7 @@
             lbl_Top2 = new Label();
             lbl_Top3 = new Label();
             btnXemNganh = new Button();
+            label2 = new Label();
             SuspendLayout();
             // 
             // label1
@@ -67,7 +68,7 @@
             // 
             lbl_Top1.AutoSize = true;
             lbl_Top1.Font = new Font("Segoe UI", 13.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_Top1.Location = new Point(1040, 293);
+            lbl_Top1.Location = new Point(958, 281);
             lbl_Top1.Name = "lbl_Top1";
             lbl_Top1.Size = new Size(120, 50);
             lbl_Top1.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             lbl_Top2.AutoSize = true;
             lbl_Top2.Font = new Font("Segoe UI", 13.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_Top2.Location = new Point(1040, 418);
+            lbl_Top2.Location = new Point(958, 409);
             lbl_Top2.Name = "lbl_Top2";
             lbl_Top2.Size = new Size(120, 50);
             lbl_Top2.TabIndex = 4;
@@ -87,7 +88,7 @@
             // 
             lbl_Top3.AutoSize = true;
             lbl_Top3.Font = new Font("Segoe UI", 13.875F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_Top3.Location = new Point(1040, 542);
+            lbl_Top3.Location = new Point(958, 538);
             lbl_Top3.Name = "lbl_Top3";
             lbl_Top3.Size = new Size(120, 50);
             lbl_Top3.TabIndex = 5;
@@ -104,11 +105,23 @@
             btnXemNganh.UseVisualStyleBackColor = true;
             btnXemNganh.Click += btnXemNganh_Click_1;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.BackColor = Color.Transparent;
+            label2.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label2.Location = new Point(873, 181);
+            label2.Name = "label2";
+            label2.Size = new Size(449, 45);
+            label2.TabIndex = 7;
+            label2.Text = "Gợi Ý Các Tổ Hợp Điểm Cao";
+            // 
             // FormChonKhoi
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1418, 767);
+            Controls.Add(label2);
             Controls.Add(btnXemNganh);
             Controls.Add(lbl_Top3);
             Controls.Add(lbl_Top2);
@@ -132,5 +145,6 @@
         private Label lbl_Top2;
         private Label lbl_Top3;
         private Button btnXemNganh;
+        private Label label2;
     }
 }

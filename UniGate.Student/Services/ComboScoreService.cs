@@ -44,7 +44,7 @@ namespace UniGate.Student.Services
 
                     if (diem == null)
                     {
-                        hopLe = false;
+                        hopLe = false;       
                         break;
                     }
 
@@ -56,11 +56,35 @@ namespace UniGate.Student.Services
 
                 detail = detail.TrimEnd('+', ' ');
 
+                // Tính ưu tiên áp dụng theo yêu cầu:
+                decimal appliedPriority = diemUuTien;
+                string note = string.Empty;
+
+                if (diemUuTien > 0m)
+                {
+                    // Nếu tổng >= 22.5 (thang tổng tối đa 30), scale theo công thức
+                    if (tong >= 22.5m)
+                    {
+                        appliedPriority = ((30m - tong) / 7.5m) * diemUuTien;
+                        if (appliedPriority < 0m) appliedPriority = 0m;
+                        note = $"Ưu tiên hiệu chỉnh: {appliedPriority:0.##} (gốc: {diemUuTien:0.##}) vì tổng >= 22.5";
+                    }
+                    else
+                    {
+                        note = $"Ưu tiên áp dụng: {diemUuTien:0.##}";
+                    }
+                }
+                else
+                {
+                    note = "Không có ưu tiên.";
+                }
+
                 result.Add(new ComboScoreResultDto
                 {
                     Code = c.Code,
-                    Score = tong + diemUuTien,
-                    Detail = detail
+                    Score = tong + appliedPriority,
+                    Detail = detail,
+                    Note = note
                 });
             }
 

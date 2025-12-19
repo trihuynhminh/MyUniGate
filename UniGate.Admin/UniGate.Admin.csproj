@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UniGate.Core\UniGate.Core.csproj" />
+    <ProjectReference Include="..\UniGate.Shared\UniGate.Shared.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
