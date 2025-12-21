@@ -54,7 +54,7 @@ public class PasswordResetToken
 
     public bool IsUsed { get; set; } // Map TINYINT(1)
 
-    public DateTime CreatedDate { get; set; } = DateTime.Now;
+    public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
     [ForeignKey("UserID")]
     public User? User { get; set; }
