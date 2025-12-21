@@ -6,7 +6,7 @@ namespace UniGate.Student
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new UniGate.Student.Forms.FormChonKhoi());
+            Application.Run(new UniGate.Student.Forms.FormForgetPassword());
         }
     }
 }

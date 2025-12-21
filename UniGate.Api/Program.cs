@@ -15,20 +15,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 
-if (databaseProvider == "SqlServer")
-{
-    // MÁY BẠN: Dùng SQL Server
-    connectionString = builder.Configuration.GetConnectionString("SqlServerConnection");
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseSqlServer(connectionString));
-}
-else
-{
-    // MÁY TRÍ: Dùng MySQL (Mặc định)
-    connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-}
 
 // --- 2. CẤU HÌNH DỊCH VỤ ---
 builder.Services.AddControllers();
