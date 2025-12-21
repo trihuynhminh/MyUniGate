@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using UniGate.Core.Interfaces;
 
 namespace UniGate.Api.Controllers;
@@ -28,3 +28,4 @@ public class AdminTestController : ControllerBase
         return Ok(new { message = "Update OK" });
     }
 }
+*/

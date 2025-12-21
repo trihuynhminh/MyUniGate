@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Collections.Generic;
 using UniGate.Infrastructure;
 using UniGate.Api.DTOs;
-
-
+using UniGate.Shared.DTOs;
 
 
 namespace UniGate.Api.Controllers
@@ -20,16 +22,14 @@ namespace UniGate.Api.Controllers
         }
 
         // =========================
-        // GET: api/combos
-        // Logic cũ: trả về Id + Code + Subjects(List)
-        // DB mới: SubjectGroups (GroupID, GroupName, Subjects string)
+        // GET: api/combos (ADMIN)
         // =========================
         [HttpGet]
         public IActionResult GetAll()
         {
             var list = _db.SubjectGroups
                 .AsNoTracking()
-                .Select(g => new ComboDto
+                .Select(g => new DTOs.ComboDto
                 {
                     Id = g.GroupID,
                     Code = g.GroupName,
@@ -41,15 +41,14 @@ namespace UniGate.Api.Controllers
         }
 
         // =========================
-        // GET: api/combos/with-subjects
-        // Logic cũ: trả về Code + Subjects(List)
+        // GET: api/combos/for-student
         // =========================
-        [HttpGet("with-subjects")]
-        public IActionResult GetCombosWithSubjects()
+        [HttpGet("for-student")]
+        public IActionResult GetForStudent()
         {
             var combos = _db.SubjectGroups
                 .AsNoTracking()
-                .Select(g => new ComboWithSubjectsDto
+                .Select(g => new ComboInfoDto
                 {
                     Code = g.GroupName,
                     Subjects = ParseSubjects(g.Subjects)
@@ -59,20 +58,19 @@ namespace UniGate.Api.Controllers
             return Ok(combos);
         }
 
-        // Tách chuỗi "Toán, Lý, Hóa" -> List<string>
-        // (nếu data của bạn dùng dấu ; hoặc | thì cũng tách luôn)
-        private static List<string> ParseSubjects(string? subjectsRaw)
+        // =========================
+        // Helper
+        // =========================
+        private static List<string> ParseSubjects(string? raw)
         {
-            if (string.IsNullOrWhiteSpace(subjectsRaw))
-                return new List<string>();
+            if (string.IsNullOrWhiteSpace(raw))
+                return new();
 
-            return subjectsRaw
+            return raw
                 .Split(new[] { ',', ';', '|' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => s.Trim())
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToList();
         }
     }
-
-    
 }

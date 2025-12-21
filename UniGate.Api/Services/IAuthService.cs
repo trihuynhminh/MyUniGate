@@ -1,13 +1,13 @@
 using UniGate.Api.DTOs;
+using System.Threading.Tasks;
 
 namespace UniGate.Api.Services
 {
     public interface IAuthService
     {
-        // Hàm đăng ký trả về true nếu thành công, hoặc ném Exception nếu lỗi
         Task<bool> RegisterAsync(RegisterRequest request);
 
-        // Hàm Login trả về AuthResponse chứa Token
+        // Sửa lại: Chỉ nhận 1 tham số request, trả về AuthResponse
         Task<AuthResponse> LoginAsync(LoginRequest request);
     }
 }

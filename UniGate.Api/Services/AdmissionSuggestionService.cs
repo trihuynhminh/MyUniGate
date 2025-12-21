@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using UniGate.Api.Models.DTOs; // Giữ lại DTOs, loại bỏ DTOs nếu bạn không có thư mục đó
+using UniGate.Api.DTOs; // Giữ lại DTOs, loại bỏ DTOs nếu bạn không có thư mục đó
 using UniGate.Infrastructure;
 using UniGate.Core.Entities;
 

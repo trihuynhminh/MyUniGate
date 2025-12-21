@@ -21,7 +21,7 @@ namespace UniGate.Api.Controllers
         /// <param name="userId">ID của người dùng cần tính điểm (Lấy từ bảng Users).</param>
         /// <returns>Danh sách các ngành có khả năng đỗ.</returns>
         [HttpGet("{userId}")]
-        [ProducesResponseType(typeof(List<Models.DTOs.AdmissionSuggestionDto>), 200)]
+        [ProducesResponseType(typeof(List<DTOs.AdmissionSuggestionDto>), 200)]
         public async Task<IActionResult> GetSuggestions(int userId)
         {
             var results = await _suggestionService.GetSuggestionsAsync(userId);

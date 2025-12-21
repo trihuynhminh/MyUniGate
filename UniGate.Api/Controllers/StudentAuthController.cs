@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UniGate.Core.Interfaces;
+using UniGate.Api.DTOs;
+using UniGate.Api.Services;
 
 namespace UniGate.Api.Controllers;
 
@@ -15,7 +16,7 @@ public class StudentAuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] object dto)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest dto)
     {
         var result = await _authService.RegisterAsync(dto);
         return Ok(result);

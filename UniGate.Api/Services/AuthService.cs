@@ -1,88 +1,85 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens; // Cần cái này cho JWT
-using System.Security.Claims; // Cần cái này cho Claims
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 using UniGate.Api.DTOs;
 using UniGate.Core.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
-using UniGate.Infrastructure;
+using UniGate.Infrastructure; // Check lại namespace chứa AppDbContext của m
 
 namespace UniGate.Api.Services
 {
     public class AuthService : IAuthService
     {
         private readonly AppDbContext _db;
-        private readonly IConfiguration _configuration; // Để đọc key JWT
+        private readonly IConfiguration _configuration;
 
+        // CHỈ GIỮ 1 CONSTRUCTOR NÀY THÔI
         public AuthService(AppDbContext db, IConfiguration configuration)
         {
             _db = db;
             _configuration = configuration;
         }
 
+        public AuthService()
+        {
+        }
+
         public async Task<bool> RegisterAsync(RegisterRequest request)
         {
-            // 1. Kiểm tra Email đã tồn tại chưa
+            // 1. Check Email
             var existingUser = await _db.Users
-                .AsNoTracking() // Tối ưu hiệu năng vì chỉ cần kiểm tra
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (existingUser != null)
-            {
                 throw new Exception("Email này đã được sử dụng.");
-            }
 
-            // 2. Mã hóa mật khẩu (Quan trọng!)
+            // 2. Hash Password
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
-            // 3. Xác định Role mặc định (Ví dụ: Student)
-            // Tìm Role ID = 1 hoặc theo tên "Student"
+            // 3. Lấy Role (Nên dùng hằng số hoặc Enum thay vì string cứng "Student" nếu được)
             var defaultRole = await _db.Roles.FirstOrDefaultAsync(r => r.RoleName == "Student");
-            int roleId = defaultRole?.RoleID ?? 1; // Fallback về 1 nếu không tìm thấy
+            int roleId = defaultRole?.RoleID ?? 1;
 
-            // 4. Tạo Entity User mới
+            // 4. Tạo User
             var newUser = new User
             {
                 Email = request.Email,
-                PasswordHash = passwordHash, // Lưu pass đã mã hóa
+                PasswordHash = passwordHash,
                 FullName = request.FullName,
                 RoleID = roleId,
                 RegionID = request.RegionID,
                 CreatedAt = DateTime.Now
             };
 
-            // 5. Lưu vào Database
             _db.Users.Add(newUser);
             await _db.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<AuthResponse> LoginAsync(LoginRequest request)
+        // SỬA LẠI HÀM NÀY: Khớp với Interface
+        public async Task<AuthResponse> LoginAsync(string email, LoginRequest request)
         {
-            // 1. Tìm user theo Email
-            // Include Role để lấy tên quyền hạn (Admin/Student)
+            // 1. Tìm user
             var user = await _db.Users
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == request.Email);
 
             if (user == null)
-            {
-                throw new Exception("Tài khoản không tồn tại.");
-            }
+                throw new Exception("Tài khoản hoặc mật khẩu không chính xác."); // Gộp thông báo lỗi để bảo mật hơn
 
-            // 2. Kiểm tra mật khẩu (So sánh pass nhập vào với Hash trong DB)
+            // 2. Check Pass
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
             if (!isPasswordValid)
-            {
-                throw new Exception("Mật khẩu không chính xác.");
-            }
+                throw new Exception("Tài khoản hoặc mật khẩu không chính xác.");
 
-            // 3. Tạo JWT Token
+            // 3. Tạo Token
             string token = CreateToken(user);
 
-            // 4. Trả về kết quả
+            // 4. Trả về
             return new AuthResponse
             {
                 Token = token,
@@ -91,32 +88,43 @@ namespace UniGate.Api.Services
             };
         }
 
-        // Hàm phụ trợ để tạo chuỗi Token
-        private string CreateToken(UniGate.Core.Entities.User user)
+        private string CreateToken(User user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()), // Lưu ID user
+                new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
                 new Claim(ClaimTypes.Name, user.FullName ?? ""),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.Role?.RoleName ?? "Student") // Lưu Role
+                new Claim(ClaimTypes.Role, user.Role?.RoleName ?? "Student")
             };
-            // Nếu có RegionID thì thêm vào luôn nếu cần
+
             if (user.RegionID.HasValue)
                 claims.Add(new Claim("RegionID", user.RegionID.Value.ToString()));
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _configuration.GetSection("JwtSettings:Key").Value!));
+            // Lấy key từ appsettings.json
+            var keyString = _configuration.GetSection("JwtSettings:Key").Value;
+            if (string.IsNullOrEmpty(keyString)) throw new Exception("JWT Key chưa được cấu hình!");
 
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1), // Token hết hạn sau 1 ngày
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<AuthResponse?> LoginAsync(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AuthResponse> LoginAsync(LoginRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }
