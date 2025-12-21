@@ -15,6 +15,8 @@ namespace UniGate.Student.Forms
 
         private List<HollandQuestion> _questions = new();
         private Button[] _numberButtons;
+
+        // key = index câu hỏi, value = mức độ (1–5)
         private Dictionary<int, int> _answers = new();
 
         private int _index = 0;
@@ -30,7 +32,6 @@ namespace UniGate.Student.Forms
         {
             try
             {
-                // 1️⃣ Gọi API lấy câu hỏi
                 var data = await _apiClient.GetHollandQuestionsAsync();
 
                 if (data == null || data.Count == 0)
@@ -40,10 +41,9 @@ namespace UniGate.Student.Forms
                     return;
                 }
 
-                // 2️⃣ FIX CỨNG: CHỈ LẤY 60 CÂU ĐẦU
+                // FIX CỨNG 60 CÂU
                 _questions = data.Take(60).ToList();
 
-                // 3️⃣ BẮT BUỘC PHẢI ĐỦ 60
                 if (_questions.Count != 60)
                 {
                     MessageBox.Show($"Số câu hỏi không hợp lệ: {_questions.Count}/60");
@@ -51,21 +51,17 @@ namespace UniGate.Student.Forms
                     return;
                 }
 
-                // 4️⃣ RESET STATE
                 _index = 0;
                 _currentPage = 0;
                 _answers.Clear();
 
-                // 5️⃣ FIX CỨNG SỐ BUTTON = 60
                 _numberButtons = new Button[60];
 
-                // 6️⃣ PROGRESS BAR
                 progressBar.Minimum = 0;
                 progressBar.Maximum = 60;
                 progressBar.Value = 1;
                 lblProgress.Text = "1 / 60";
 
-                // 7️⃣ KHỞI TẠO UI
                 CreateNumberButtons();
                 LoadPage(0);
                 DisplayQuestion();
@@ -76,8 +72,6 @@ namespace UniGate.Student.Forms
                 Close();
             }
         }
-
-
 
         // ================= UI =================
         private void CreateNumberButtons()
@@ -184,7 +178,6 @@ namespace UniGate.Student.Forms
 
         private async void btnNext_Click(object sender, EventArgs e)
         {
-            // Chưa tới câu cuối
             if (_index < _questions.Count - 1)
             {
                 _index++;
@@ -192,7 +185,7 @@ namespace UniGate.Student.Forms
                 return;
             }
 
-            // Đã tới câu cuối → kiểm tra đủ câu
+            // ===== CÂU CUỐI =====
             if (_answers.Count != _questions.Count)
             {
                 MessageBox.Show($"Bạn mới trả lời {_answers.Count}/{_questions.Count} câu!");
@@ -205,16 +198,24 @@ namespace UniGate.Student.Forms
 
             try
             {
-                var request = new
+                // ================= FIX QUAN TRỌNG =================
+                // TÍNH ĐIỂM THEO R I A S E C
+                var scores = new Dictionary<string, int>
                 {
-                    answers = _answers.Select(a => new
-                    {
-                        questionId = _questions[a.Key].Id,
-                        score = a.Value
-                    }).ToList()
+                    { "R", 0 }, { "I", 0 }, { "A", 0 },
+                    { "S", 0 }, { "E", 0 }, { "C", 0 }
                 };
 
-                var result = await _hollandService.SubmitAsync(request);
+                foreach (var a in _answers)
+                {
+                    var q = _questions[a.Key];
+                    string group = q.Group; // R/I/A/S/E/C
+                    scores[group] += a.Value;
+                }
+
+                // GỬI ĐÚNG KIỂU API NHẬN
+                var result = await _hollandService.SubmitAsync(scores);
+
                 new TestResultForm(result).Show();
                 Close();
             }

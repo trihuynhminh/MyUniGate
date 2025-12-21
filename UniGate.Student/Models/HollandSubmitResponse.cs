@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-public class HollandSubmitResponse
+namespace UniGate.Student.Models
 {
-    public Dictionary<string, int> Scores { get; set; }
-    public string HollandCode { get; set; }
-    public string Description { get; set; }
-    public string CareerSuggestions { get; set; }
+    public class HollandSubmitResponse
+    {
+        public Dictionary<string, int> Scores { get; set; } = new();
+
+        public string HollandCode { get; set; } = "";
+
+        public string Description { get; set; } = "";
+
+        public string CareerSuggestions { get; set; } = "";
+    }
 }

@@ -162,7 +162,7 @@ namespace UniGate.Student.Forms
             panelDetail.Name = "panelDetail";
             panelDetail.Size = new Size(840, 290);
             panelDetail.TabIndex = 2;
-            panelDetail.Paint += panelDetail_Paint;
+
             // 
             // lblR
             // 

@@ -1,9 +1,27 @@
-﻿namespace UniGate.Admin.Forms.Questions
+﻿using System.Windows.Forms;
+
+namespace UniGate.Admin.Forms.Questions
 {
     partial class FrmAdminQuestions
     {
+        private DataGridView dgvQuestions;
+        private TextBox txtContent;
+        private ComboBox cboGroup;
+        private Button btnAdd;
+        private Button btnUpdate;
+        private Button btnDelete;
+        private TextBox txtSearch;
+        private ComboBox cboFilter;
+        private Label lblTitle;
+
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -15,237 +33,132 @@
 
         private void InitializeComponent()
         {
-            this.cbTestType = new System.Windows.Forms.ComboBox();
-            this.btnReload = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.dgvQuestions = new System.Windows.Forms.DataGridView();
-
-            this.lblId = new System.Windows.Forms.Label();
-            this.txtId = new System.Windows.Forms.TextBox();
-
-            this.lblContent = new System.Windows.Forms.Label();
-            this.txtContent = new System.Windows.Forms.TextBox();
-
-            this.lblCode = new System.Windows.Forms.Label();
-            this.txtCode = new System.Windows.Forms.TextBox();
-
-            this.lblGroup = new System.Windows.Forms.Label();
-            this.txtGroup = new System.Windows.Forms.TextBox();
-
-            this.chkIsActive = new System.Windows.Forms.CheckBox();
-
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnClear = new System.Windows.Forms.Button();
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQuestions)).BeginInit();
-            this.SuspendLayout();
-
-            // 
-            // cbTestType
-            // 
-            this.cbTestType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTestType.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.cbTestType.FormattingEnabled = true;
-            this.cbTestType.Items.AddRange(new object[] {
-            "Holland"});
-            this.cbTestType.Location = new System.Drawing.Point(20, 20);
-            this.cbTestType.Name = "cbTestType";
-            this.cbTestType.Size = new System.Drawing.Size(180, 25);
-
-            // 
-            // btnReload
-            // 
-            this.btnReload.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnReload.Location = new System.Drawing.Point(210, 20);
-            this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(80, 26);
-            this.btnReload.Text = "Reload";
-            this.btnReload.UseVisualStyleBackColor = true;
-
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSearch.Location = new System.Drawing.Point(420, 20);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.PlaceholderText = "Tìm kiếm...";
-            this.txtSearch.Size = new System.Drawing.Size(200, 25);
-
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnSearch.Location = new System.Drawing.Point(630, 20);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(70, 26);
-            this.btnSearch.Text = "Tìm";
-            this.btnSearch.UseVisualStyleBackColor = true;
-
+            dgvQuestions = new DataGridView();
+            txtContent = new TextBox();
+            cboGroup = new ComboBox();
+            btnAdd = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
+            txtSearch = new TextBox();
+            cboFilter = new ComboBox();
+            lblTitle = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvQuestions).BeginInit();
+            SuspendLayout();
             // 
             // dgvQuestions
             // 
-            this.dgvQuestions.AllowUserToAddRows = false;
-            this.dgvQuestions.AllowUserToDeleteRows = false;
-            this.dgvQuestions.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvQuestions.BackgroundColor = System.Drawing.Color.White;
-            this.dgvQuestions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvQuestions.Location = new System.Drawing.Point(20, 60);
-            this.dgvQuestions.MultiSelect = false;
-            this.dgvQuestions.Name = "dgvQuestions";
-            this.dgvQuestions.ReadOnly = true;
-            this.dgvQuestions.RowHeadersVisible = false;
-            this.dgvQuestions.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvQuestions.Size = new System.Drawing.Size(760, 250);
-
-            // 
-            // lblId
-            // 
-            this.lblId.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblId.Location = new System.Drawing.Point(20, 330);
-            this.lblId.Text = "Id:";
-            // 
-            // txtId
-            // 
-            this.txtId.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtId.Location = new System.Drawing.Point(80, 327);
-            this.txtId.ReadOnly = true;
-            this.txtId.Size = new System.Drawing.Size(120, 25);
-
-            // 
-            // lblContent
-            // 
-            this.lblContent.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblContent.Location = new System.Drawing.Point(20, 370);
-            this.lblContent.Text = "Nội dung:";
+            dgvQuestions.AllowUserToAddRows = false;
+            dgvQuestions.AllowUserToDeleteRows = false;
+            dgvQuestions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvQuestions.ColumnHeadersHeight = 29;
+            dgvQuestions.Location = new System.Drawing.Point(12, 95);
+            dgvQuestions.MultiSelect = false;
+            dgvQuestions.Name = "dgvQuestions";
+            dgvQuestions.ReadOnly = true;
+            dgvQuestions.RowHeadersWidth = 51;
+            dgvQuestions.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvQuestions.Size = new System.Drawing.Size(683, 220);
+            dgvQuestions.TabIndex = 3;
+            dgvQuestions.CellClick += dgvQuestions_CellClick;
             // 
             // txtContent
             // 
-            this.txtContent.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtContent.Location = new System.Drawing.Point(20, 395);
-            this.txtContent.Multiline = true;
-            this.txtContent.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtContent.Size = new System.Drawing.Size(760, 90);
-
+            txtContent.Location = new System.Drawing.Point(12, 330);
+            txtContent.Multiline = true;
+            txtContent.Name = "txtContent";
+            txtContent.Size = new System.Drawing.Size(522, 60);
+            txtContent.TabIndex = 4;
             // 
-            // lblCode
-            //
-            this.lblCode.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblCode.Location = new System.Drawing.Point(20, 500);
-            this.lblCode.Text = "Code:";
+            // cboGroup
             // 
-            // txtCode
-            // 
-            this.txtCode.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtCode.Location = new System.Drawing.Point(80, 497);
-            this.txtCode.Size = new System.Drawing.Size(120, 25);
-
-            // 
-            // lblGroup
-            // 
-            this.lblGroup.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblGroup.Location = new System.Drawing.Point(220, 500);
-            this.lblGroup.Text = "Nhóm (R/I/A/S/E/C):";
-            // 
-            // txtGroup
-            // 
-            this.txtGroup.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtGroup.Location = new System.Drawing.Point(360, 497);
-            this.txtGroup.Size = new System.Drawing.Size(80, 25);
-
-            // 
-            // chkIsActive
-            // 
-            this.chkIsActive.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.chkIsActive.Location = new System.Drawing.Point(480, 497);
-            this.chkIsActive.Text = "Đang dùng";
-            this.chkIsActive.Checked = true;
-
+            cboGroup.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboGroup.Location = new System.Drawing.Point(556, 340);
+            cboGroup.Name = "cboGroup";
+            cboGroup.Size = new System.Drawing.Size(60, 28);
+            cboGroup.TabIndex = 5;
             // 
             // btnAdd
             // 
-            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnAdd.Location = new System.Drawing.Point(20, 540);
-            this.btnAdd.Size = new System.Drawing.Size(120, 35);
-            this.btnAdd.Text = "Thêm mới";
-
+            btnAdd.Location = new System.Drawing.Point(24, 405);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new System.Drawing.Size(100, 35);
+            btnAdd.TabIndex = 6;
+            btnAdd.Text = "➕ Thêm";
+            btnAdd.UseVisualStyleBackColor = true;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnUpdate
+            // 
+            btnUpdate.Location = new System.Drawing.Point(230, 405);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new System.Drawing.Size(100, 35);
+            btnUpdate.TabIndex = 7;
+            btnUpdate.Text = "✏ Sửa";
+            btnUpdate.UseVisualStyleBackColor = true;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnDelete.Location = new System.Drawing.Point(160, 540);
-            this.btnDelete.Size = new System.Drawing.Size(120, 35);
-            this.btnDelete.Text = "Xóa";
-
+            btnDelete.Location = new System.Drawing.Point(434, 405);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new System.Drawing.Size(100, 35);
+            btnDelete.TabIndex = 8;
+            btnDelete.Text = "🗑 Xóa";
+            btnDelete.UseVisualStyleBackColor = true;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // btnClear
+            // txtSearch
             // 
-            this.btnClear.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.btnClear.Location = new System.Drawing.Point(300, 540);
-            this.btnClear.Size = new System.Drawing.Size(120, 35);
-            this.btnClear.Text = "Clear";
-
+            txtSearch.Location = new System.Drawing.Point(12, 55);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "🔍 Tìm nội dung câu hỏi...";
+            txtSearch.Size = new System.Drawing.Size(280, 27);
+            txtSearch.TabIndex = 1;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+            // 
+            // cboFilter
+            // 
+            cboFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboFilter.Location = new System.Drawing.Point(305, 55);
+            cboFilter.Name = "cboFilter";
+            cboFilter.Size = new System.Drawing.Size(80, 28);
+            cboFilter.TabIndex = 2;
+            cboFilter.SelectedIndexChanged += cboFilter_SelectedIndexChanged;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new System.Drawing.Font("Cambria", 18F, System.Drawing.FontStyle.Bold);
+            lblTitle.ForeColor = System.Drawing.Color.ForestGreen;
+            lblTitle.Location = new System.Drawing.Point(12, 9);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new System.Drawing.Size(401, 36);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "QUẢN LÝ CÂU HỎI HOLLAND";
             // 
             // FrmAdminQuestions
             // 
-            this.ClientSize = new System.Drawing.Size(800, 600);
-            this.Controls.Add(this.cbTestType);
-            this.Controls.Add(this.btnReload);
-            this.Controls.Add(this.txtSearch);
-            this.Controls.Add(this.btnSearch);
-            this.Controls.Add(this.dgvQuestions);
-
-            this.Controls.Add(this.lblId);
-            this.Controls.Add(this.txtId);
-
-            this.Controls.Add(this.lblContent);
-            this.Controls.Add(this.txtContent);
-
-            this.Controls.Add(this.lblCode);
-            this.Controls.Add(this.txtCode);
-
-            this.Controls.Add(this.lblGroup);
-            this.Controls.Add(this.txtGroup);
-
-            this.Controls.Add(this.chkIsActive);
-
-            this.Controls.Add(this.btnAdd);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnClear);
-
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Admin – Quản lý câu hỏi";
-
-            ((System.ComponentModel.ISupportInitialize)(this.dgvQuestions)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(707, 460);
+            Controls.Add(lblTitle);
+            Controls.Add(txtSearch);
+            Controls.Add(cboFilter);
+            Controls.Add(dgvQuestions);
+            Controls.Add(txtContent);
+            Controls.Add(cboGroup);
+            Controls.Add(btnAdd);
+            Controls.Add(btnUpdate);
+            Controls.Add(btnDelete);
+            Name = "FrmAdminQuestions";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Admin – Holland Questions";
+            Load += FrmAdminQuestions_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvQuestions).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cbTestType;
-        private System.Windows.Forms.Button btnReload;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.DataGridView dgvQuestions;
-
-        private System.Windows.Forms.Label lblId;
-        private System.Windows.Forms.TextBox txtId;
-
-        private System.Windows.Forms.Label lblContent;
-        private System.Windows.Forms.TextBox txtContent;
-
-        private System.Windows.Forms.Label lblCode;
-        private System.Windows.Forms.TextBox txtCode;
-
-        private System.Windows.Forms.Label lblGroup;
-        private System.Windows.Forms.TextBox txtGroup;
-
-        private System.Windows.Forms.CheckBox chkIsActive;
-
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnClear;
     }
 }
