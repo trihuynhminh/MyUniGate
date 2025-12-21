@@ -3,6 +3,7 @@
 (Chứa: ScoreConversion, GroupScoreDistribution, UserScore, UserSelectedCombo)*/
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace UniGate.Core.Entities;
 
@@ -16,7 +17,8 @@ public class GroupScoreDistribution
     public int CountStudents { get; set; }
     [Column(TypeName = "decimal(5,4)")] public decimal ProbDistribution { get; set; }
 
-    // Navigation property với SubjectGroup
+    // ❌ Không cho client gửi / Swagger hiển thị
+    [JsonIgnore]
     [ForeignKey("GroupID")] public virtual SubjectGroup SubjectGroup { get; set; } = null!;
 }
 

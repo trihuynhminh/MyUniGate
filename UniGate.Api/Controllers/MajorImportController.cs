@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using UniGate.Core.Entities;
 using UniGate.Infrastructure;
+using UniGate.Api.DTOs;
 
 namespace UniGate.Api.Controllers
 {
@@ -17,17 +18,12 @@ namespace UniGate.Api.Controllers
             _db = db;
         }
 
-        // DTO để Swagger hiện Choose file
-        public class MajorUploadDto
-        {
-            public IFormFile File { get; set; } = default!;
-        }
 
         // Excel columns (giống cũ):
         // 1 MajorCode | 2 MajorName | 3 SchoolCode(UniversityCode) | 4 Cutoff | 5 Combos(A00,D01)
         [HttpPost("majors")]
         [Consumes("multipart/form-data")]
-        public async Task<IActionResult> ImportMajors([FromForm] MajorUploadDto request)
+        public async Task<IActionResult> ImportMajors([FromForm] FileUploadDto request)
         {
             var file = request.File;
 

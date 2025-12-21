@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UniGate.Infrastructure;
+using UniGate.Api.DTOs;
 
 
 
@@ -28,7 +29,7 @@ namespace UniGate.Api.Controllers
         {
             var list = _db.SubjectGroups
                 .AsNoTracking()
-                .Select(g => new
+                .Select(g => new ComboDto
                 {
                     Id = g.GroupID,
                     Code = g.GroupName,
@@ -48,7 +49,7 @@ namespace UniGate.Api.Controllers
         {
             var combos = _db.SubjectGroups
                 .AsNoTracking()
-                .Select(g => new ComboInfoResponse
+                .Select(g => new ComboWithSubjectsDto
                 {
                     Code = g.GroupName,
                     Subjects = ParseSubjects(g.Subjects)
@@ -73,9 +74,5 @@ namespace UniGate.Api.Controllers
         }
     }
 
-    public class ComboInfoResponse
-    {
-        public string Code { get; set; } = "";
-        public List<string> Subjects { get; set; } = new();
-    }
+    
 }
