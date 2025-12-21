@@ -142,5 +142,7 @@ namespace UniGate.Admin.Forms
             await _majorService.DeleteAsync(major.Id);
             await LoadNganh(major.SchoolId);
         }
+
+       
     }
 }
