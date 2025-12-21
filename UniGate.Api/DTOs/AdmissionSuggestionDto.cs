@@ -1,4 +1,4 @@
-﻿namespace UniGate.Api.Models.DTOs
+﻿namespace UniGate.Api.DTOs
 {
     public class AdmissionSuggestionDto
     {
